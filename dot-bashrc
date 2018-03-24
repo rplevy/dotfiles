@@ -1,0 +1,25 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+
+export PATH="/usr/local/Cellar/emacs/24.3/bin:$HOME/bin:"$PATH
+export JAVA_HOME=$(/usr/libexec/java_home)
+export PAGER=cat
+export EDITOR=emacs
+export PS1='\u:\A:\w\$ '
+
+epoch-now() { date +%s; }
+from-epoch() { date -r $1 '+%m/%d/%Y:%H:%M:%S'; }
+to-epoch() { date -j -f "%Y-%m-%d" "$1" +%s; }
+uuidcp() { uuidgen | awk '{print tolower($0)}' | pbcopy; }
+
+latest_tag() { git describe --tags --abbrev=0; }
+
+esq() { curl -s -XGET "$ELASTICSEARCH_READ_URL"/_search -d '{"query": '"$1"'}'; } # eg. esq '{"match_all": {}}' | jq
+esqp() { curl -s -XGET "$ELASTICSEARCH_READ_URL"/_search -d '{"query": '"$1"'}'; }
+
+export CONFLUENT_HOME=$HOME/bin/confluent-1.0
+export SCHEMA_DIR=$HOME/schemas
+kafka-avro-consume() { $CONFLUENT_HOME/bin/kafka-avro-console-consumer --property schema.registry.url=http://localhost:8081 --zookeeper localhost:2181 --from-beginning --topic $1 | jq; }
+alias zookeeper="$CONFLUENT_HOME/bin/zookeeper-server-start $CONFLUENT_HOME/etc/kafka/zookeeper.properties"
+alias kafka="$CONFLUENT_HOME/bin/kafka-server-start $CONFLUENT_HOME/etc/kafka/server.properties"
+alias schemareg="$CONFLUENT_HOME/bin/schema-registry-start $CONFLUENT_HOME/etc/schema-registry/schema-registry.properties"
+alias kafkarestproxy="$CONFLUENT_HOME/bin/kafka-rest-start"

@@ -1,0 +1,39 @@
+#!/usr/local/bin/planck -D testdouble/clojurescript.csv:0.3.0
+
+;; deps install steps:
+;;
+;; cd $INSTALLDIR
+;; git clone git@github.com:testdouble/clojurescript.csv.git
+;; cd clojurescript.csv/
+;; git checkout v0.3.0
+;; lein install
+
+(ns scripts.csv2clj
+  "reads a csv file, where the first column is expected to be the
+   column definitions.  what is produced is a vector of maps where the
+   keys are the column names, with whitespace"
+  (:require [clojure.string :as s]
+            [cljs.pprint :refer [pprint]]
+            [planck.core :refer [slurp *command-line-args* *in* line-seq]]
+            [testdouble.cljs.csv :as csv]))
+
+(defn last-n-chars [n s]
+  (apply str (reverse (take n (reverse s)))))
+
+(defn csv-file-name? [s]
+  (= ".csv" (last-n-chars 4 s)))
+
+(defn csv-rows->maps [[col-headings & rows]]
+  (map (fn [row]
+         (apply hash-map (interleave col-headings row)))
+       rows))
+
+(let [s (first *command-line-args*)
+      csv (if (csv-file-name? s)
+            (slurp s)
+            (or s
+                (apply str (vec (line-seq *in*)))))]
+  (-> csv
+      csv/read-csv
+      csv-rows->maps
+      pprint))

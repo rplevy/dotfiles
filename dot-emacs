@@ -1,0 +1,154 @@
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+(load-theme 'zenburn t)
+
+(require 'whitespace)
+(setq whitespace-style '(face empty tabs lines-tail trailing))
+(global-whitespace-mode t)
+
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(package-initialize)
+(unless (package-installed-p 'clojure-mode)
+  (package-install 'clojure-mode))
+(unless (package-installed-p 'cider)
+  (package-install 'cider))
+(add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
+(setq cider-boot-parameters "dev")
+(unless (package-installed-p 'magit)
+  (package-refresh-contents)
+  (package-install 'magit))
+
+(add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
+
+(require 'uniquify)
+(setq-default uniquify-buffer-name-style 'post-forward-angle-brackets)
+
+(when (fboundp 'global-font-lock-mode) (global-font-lock-mode t))
+(put 'downcase-region 'disabled nil)
+(put 'erase-buffer 'disabled nil)
+(put 'upcase-region 'disabled nil)
+
+(ido-mode 1)
+(column-number-mode 1)
+(global-auto-revert-mode 1)
+(menu-bar-mode -1)
+
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
+(setq-default truncate-partial-width-windows nil)
+(setq-default auto-save-default nil)
+(setq-default backup-inhibited t)
+(setq-default c-basic-offset 4)
+(setq-default column-number-mode t)
+(setq-default erc-server "irc.sa2s.us")
+(setq-default inhibit-startup-screen t)
+(setq-default large-file-warning-threshold nil)
+(setq-default show-paren-mode t)
+(setq-default show-trailing-whitespace t)
+(setq-default transient-mark-mode t)
+(setq-default truncate-partial-width-windows nil)
+
+(global-set-key (kbd "ESC <up>") 'windmove-up)
+(global-set-key (kbd "ESC <down>") 'windmove-down)
+(global-set-key (kbd "ESC <left>") 'windmove-left)
+(global-set-key (kbd "ESC <right>") 'windmove-right)
+(global-set-key (kbd "C-c <up>") 'shrink-window)
+(global-set-key (kbd "C-c <down>") 'enlarge-window)
+(global-set-key (kbd "C-c <left>") 'shrink-window-horizontally)
+(global-set-key (kbd "C-c <right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "C-c g") 'goto-line)
+(global-set-key (kbd "\C-c d") 'browse-url)
+(global-set-key (kbd "C-c w") 'delete-trailing-whitespace)
+
+(defun split-window-one-fourth ()
+  (interactive)
+  (split-window-vertically)
+  (windmove-down)
+  (split-window-vertically)
+  (delete-window))
+
+(defun split-window-one-eighth ()
+  (interactive)
+  (split-window-one-fourth)
+  (split-window-vertically)
+  (delete-window))
+
+(defun format-html ()
+  (interactive)
+  (html-mode)
+  (beginning-of-buffer)
+  (replace-string "<" (concat (kbd "C-j") "<"))
+  (indent-region (point-min) (point-max)))
+
+(defun convert-to-org ()
+  (interactive)
+  (let* ((f (buffer-file-name (current-buffer)))
+         (new-f (concat "/tmp/" (file-name-base f) ".org")))
+    (shell-command (concat "pandoc " f " -o " new-f))
+    (find-file new-f)))
+
+(defun copy-sexp ()
+  "mark and copy sexp"
+  (interactive)
+  (mark-sexp)
+  (kill-ring-save (region-beginning)
+                  (region-end)))
+(global-set-key "\C-x\C-e" 'copy-sexp)
+
+(defun iwb ()
+  "indent whole buffer"
+  (interactive)
+  (delete-trailing-whitespace)
+  (indent-region (point-min)
+                 (point-max)
+                 nil)
+  (untabify (point-min)
+            (point-max)))
+
+(defun toggle-tpww ()
+  (interactive)
+  (setq truncate-partial-width-windows
+        (not truncate-partial-width-windows)))
+
+(defmacro defshell (name cmd)
+  `(defun ,name ()
+     (interactive)
+     (insert (shell-command-to-string ,cmd))))
+
+(defmacro defshellonreg (name cmd &optional replace)
+  `(defun ,name (beg end)
+     (interactive "r")
+     (shell-command-on-region beg end ,cmd
+                              (if ,replace (current-buffer) nil)
+                              ,replace)))
+
+(defmacro defregexp (name a b)
+  `(defun ,name ()
+     (interactive)
+     (replace-regexp ,a ,b
+                     nil
+                     (if (use-region-p) (region-beginning))
+                     (if (use-region-p) (region-end))
+                     nil)))
+
+(defshellonreg pbcopy-region "pbcopy")
+
+(defshellonreg xml->clj-region "xmlclj" t)
+
+(defshellonreg htm2clj-region "html2clj" t)
+
+(defshellonreg edn->json "edn2json" t)
+
+(defshell uuid "uuidgen | awk '{print tolower($0)}' | tr -d '\n'")
+
+(defshell ls "ls")
+
+(defregexp kw->jsonkw ":\\([^ ]+\\) " "\"\\1\": ")
+
+(setq initial-scratch-message
+      (concat
+       "(insert initial-scratch-message)\n"
+       "༼ つ ◕◡◕ ༽つ ---------------------------"
+       "----------------------------------------\n"
+       "0                                       "
+       "                                      80\n\n"))

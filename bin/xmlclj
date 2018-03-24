@@ -1,0 +1,16 @@
+#!/usr/local/bin/planck -D funcool/tubax:0.2.0
+
+(ns scripts.xmlclj
+  (:require [tubax.core :as tubax]
+            [planck.core :refer [slurp *command-line-args* *in* line-seq]]
+            [cljs.pprint :refer [pprint]]))
+
+(defn last-4-chars [s]
+  (apply str (reverse (take 4 (reverse s)))))
+
+(let [s (first *command-line-args*)
+      xml (if (= ".xml" (last-4-chars s))
+            (slurp s)
+            (or s
+                (apply str (vec (line-seq *in*)))))]
+  (pprint (tubax/xml->clj xml)))

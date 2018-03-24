@@ -1,0 +1,68 @@
+#!/usr/local/bin/planck -D funcool/tubax:0.2.0
+
+(ns scripts.html2clj
+  (:require [clojure.string :as s]
+            [clojure.walk :as w]
+            [cljs.pprint :refer [pprint]]
+            [planck.core :refer [slurp *command-line-args* *in* line-seq]]
+            [tubax.core :as tubax]))
+
+;;------------------------------------------------------------------------------
+;; Borrowed in part from https://github.com/bensu/hickory-stack
+(defn string->tokens
+  "Takes a string with syles and parses it into properties and value tokens"
+  [style]
+  (->> (s/split style #";")
+       (mapcat #(s/split % #":"))
+       (map s/trim)))
+
+(defn tokens->map
+  "Takes a seq of tokens with the properties (even) and their values (odd)
+   and returns a map of {properties values}"
+  [tokens]
+  (zipmap (keep-indexed #(if (even? %1) %2) tokens)
+          (keep-indexed #(if (odd? %1) %2) tokens)))
+
+(defn keywordize [m]
+  (reduce-kv (fn [r k v] (assoc r (keyword k) v)) {} m))
+
+(defn style->map
+  "Takes an inline style attribute stirng and converts it to a React
+  Style map"
+  [style]
+  (keywordize
+   (tokens->map (string->tokens style))))
+;; ^^ borrowed in part from https://github.com/bensu/hickory-stack
+;;------------------------------------------------------------------------------
+
+(defn xml-element->sablono-element [m]
+  (vec (filter
+        #(not= % {})
+        (concat [(:tag m)
+                 (if (:style (:attributes m))
+                   (update (:attributes m) :style style->map)
+                   (:attributes m))]
+                (:content m)))))
+
+(defn elem? [m]
+  (:tag m))
+
+(defn xml-data->sablono [m]
+  (w/postwalk
+   (fn [x]
+     (if (elem? x)
+       (xml-element->sablono-element x)
+       x))
+   m))
+
+(defn last-n-chars [n s]
+  (apply str (reverse (take n (reverse s)))))
+
+(let [s (first *command-line-args*)
+      xml (if (= ".html" (last-n-chars 5 s))
+            (slurp s)
+            (or s
+                (apply str (vec (line-seq *in*)))))]
+  (-> (tubax/xml->clj xml)
+      xml-data->sablono
+      pprint))

@@ -1,0 +1,19 @@
+#!/usr/local/bin/planck
+
+(ns scripts.edn2json
+  (:require [cljs.reader :as r]
+            [planck.core :refer [slurp *command-line-args* *in* line-seq]]))
+
+(defn last-n-chars [n s]
+  (apply str (reverse (take n (reverse s)))))
+
+(let [s (first *command-line-args*)
+      edn (if (#{".edn" ".clj"} (last-n-chars 4 s))
+            (slurp s)
+            (or s
+                (apply str (line-seq *in*))))]
+  (->> edn
+       r/read-string
+       clj->js
+       (.stringify js/JSON)
+       println))
