@@ -34,8 +34,8 @@
 (menu-bar-mode -1)
 (show-paren-mode)
 (transient-mark-mode 1)
-(indent-tabs-mode -1)
 
+(setq-default indent-tabs-mode nil)
 (setq-default tab-width 4)
 (setq-default truncate-partial-width-windows nil)
 (setq-default auto-save-default nil)
