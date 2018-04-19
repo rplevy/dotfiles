@@ -1,12 +1,4 @@
-#!/usr/local/bin/planck -D testdouble/clojurescript.csv:0.3.0
-
-;; deps install steps:
-;;
-;; cd $INSTALLDIR
-;; git clone git@github.com:testdouble/clojurescript.csv.git
-;; cd clojurescript.csv/
-;; git checkout v0.3.0
-;; lein install
+#!/usr/bin/env plk -Sdeps {:deps,{testdouble/clojurescript.csv,{:mvn/version,"0.3.0"}}}
 
 (ns scripts.csv2clj
   "reads a csv file, where the first column is expected to be the

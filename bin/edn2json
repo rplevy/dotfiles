@@ -1,4 +1,4 @@
-#!/usr/local/bin/planck
+#!/usr/bin/env plk
 
 (ns scripts.edn2json
   (:require [cljs.reader :as r]

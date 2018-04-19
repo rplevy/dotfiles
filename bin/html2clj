@@ -1,4 +1,4 @@
-#!/usr/local/bin/planck -D funcool/tubax:0.2.0
+#!/usr/bin/env plk -Sdeps {:deps,{funcool/tubax,{:mvn/version,"0.2.0"}}}
 
 (ns scripts.html2clj
   (:require [clojure.string :as s]
