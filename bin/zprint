@@ -3,14 +3,6 @@
 (ns scripts.zprint
   (:require [zprint.core :as zp]))
 
-(defn read-all
-  [input]
-  (let [eof (Object.)]
-    (take-while #(not= % eof) (repeatedly #(read input false eof)))))
-
-(doseq [f (interpose "" (read-all *in*))]
-  (if (= f "")
-    (println)
-    (zp/zprint f)))
+(zp/zprint (slurp *in*) 80 {:parse-string? true})
 
 (System/exit 0)
