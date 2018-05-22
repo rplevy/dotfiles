@@ -1,0 +1,16 @@
+#!/usr/bin/env clj -Sdeps {:deps,{zprint,{:mvn/version,"0.4.9"}}}
+
+(ns scripts.zprint
+  (:require [zprint.core :as zp]))
+
+(defn read-all
+  [input]
+  (let [eof (Object.)]
+    (take-while #(not= % eof) (repeatedly #(read input false eof)))))
+
+(doseq [f (interpose "" (read-all *in*))]
+  (if (= f "")
+    (println)
+    (zp/zprint f)))
+
+(System/exit 0)

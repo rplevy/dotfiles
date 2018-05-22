@@ -134,6 +134,8 @@
 
 (defshellonreg xml->clj-region "xmlclj" t)
 
+(defshellonreg zprint-region "zprint" t)
+
 (defshellonreg htm2clj-region "html2clj" t)
 
 (defshellonreg edn->json "edn2json" t)
