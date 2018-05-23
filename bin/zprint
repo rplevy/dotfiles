@@ -3,6 +3,7 @@
 (ns scripts.zprint
   (:require [zprint.core :as zp]))
 
-(zp/zprint (slurp *in*) 80 {:parse-string? true})
+(zp/zprint (slurp *in*) 80 {:parse-string-all? true
+                            :parse {:interpose "\n\n"}})
 
 (System/exit 0)
