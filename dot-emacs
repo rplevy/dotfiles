@@ -137,6 +137,12 @@
 
 (defshellonreg zprint-region "zprint" t)
 
+(defun zwb ()
+  (interactive)
+  (mark-whole-buffer)
+  (zprint-region (region-beginning) (region-end))
+  (iwb))
+
 (defshellonreg htm2clj-region "html2clj" t)
 
 (defshellonreg edn->json "edn2json" t)
