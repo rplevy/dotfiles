@@ -143,6 +143,12 @@
   (zprint-region (region-beginning) (region-end))
   (iwb))
 
+(defun zprint-sexp ()
+  (interactive)
+  (mark-sexp)
+  (zprint-region (region-beginning) (region-end))
+  (indent-region (region-beginning) (region-end)))
+
 (defshellonreg htm2clj-region "html2clj" t)
 
 (defshellonreg edn->json "edn2json" t)
