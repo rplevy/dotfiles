@@ -1,0 +1,9 @@
+#!/usr/bin/env plk
+
+(ns scripts.sort-sexp
+  (:require [cljs.reader :refer [read-string]]
+            [planck.core :refer [slurp *command-line-args* *in* line-seq]]))
+
+(let [expr (read-string (slurp *in*))]
+  (println (cons (first expr)
+                 (sort-by str (rest expr)))))

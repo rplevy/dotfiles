@@ -149,6 +149,15 @@
   (zprint-region (region-beginning) (region-end))
   (indent-region (region-beginning) (region-end)))
 
+(defshellonreg sort-sexp-region "sort-sexp" t)
+
+(defun sort-sexp ()
+  (interactive)
+  (mark-sexp)
+  (sort-sexp-region (region-beginning) (region-end))
+  (zprint-region (region-beginning) (region-end))
+  (indent-region (region-beginning) (region-end)))
+
 (defshellonreg htm2clj-region "html2clj" t)
 
 (defshellonreg edn->json "edn2json" t)
