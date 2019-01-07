@@ -17,6 +17,9 @@
 (unless (package-installed-p 'magit)
   (package-refresh-contents)
   (package-install 'magit))
+(unless (package-installed-p 'restclient)
+  (package-refresh-contents)
+  (package-install 'restclient))
 
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
@@ -143,6 +146,21 @@
   (zprint-region (region-beginning) (region-end))
   (iwb))
 
+(defun zprint-sexp ()
+  (interactive)
+  (mark-sexp)
+  (zprint-region (region-beginning) (region-end))
+  (indent-region (region-beginning) (region-end)))
+
+(defshellonreg sort-sexp-region "sort-sexp" t)
+
+(defun sort-sexp ()
+  (interactive)
+  (mark-sexp)
+  (sort-sexp-region (region-beginning) (region-end))
+  (zprint-region (region-beginning) (region-end))
+  (indent-region (region-beginning) (region-end)))
+
 (defshellonreg htm2clj-region "html2clj" t)
 
 (defshellonreg edn->json "edn2json" t)
@@ -154,9 +172,44 @@
 (defregexp kw->jsonkw ":\\([^ ]+\\) " "\"\\1\": ")
 
 (setq initial-scratch-message
-      (concat
-       "(insert initial-scratch-message)\n"
-       "༼ つ ◕◡◕ ༽つ ---------------------------"
-       "----------------------------------------\n"
-       "0                                       "
-       "                                      80\n\n"))
+  (concat
+   "(insert initial-scratch-message)\n"
+   "༼ つ ◕◡◕ ༽つ ---------------------------"
+   "----------------------------------------\n"
+   "0                                       "
+   "                                      80\n\n"
+   " @'',  .#`                            :''#   @                  +`    @\n"
+   " @  :.  +`                            +   `  @                  +`    @\n"
+   " @   #  +`  # #` ;' +` +  #  '`;.     +`     @   .+ ,, @' #  :,.@`    @' + ,,  +\n"
+   " @  ,,  +` ;` `'    #: #    `;  #      ..#   @      :+ @  ,. #  +`    @  :` #  #\n"
+   " @,,'   +` '''';  ,'`: `''; `#'''         '  @    ,+ + @  .. #  +`    @  ,` +`;.\n"
+   " @      +` '     +  `:    + `;            @  @   ;.  + @  .. #  +`    @  ,` `:@\n"
+   " @      +`  + '` + .@: +  +  # ,:     +` ,:  +`, ;. '+ @  .. '``@`    @: #   #;\n"
+   " .      `   `.`   .. `  ..`   ..       ..     .`  .. . .      ..`     ...    #\n"
+   "                                                                            `:\n"
+   "                                                                            @\n"
+   "\n"
+   "\n"
+   "      ;            ,.     ;`                 #                      ' +:;;;'##@,\n"
+   "      ;            ,.                        #                      '':+;:;#:` @\n"
+   "      ; +; #` ;` # ,. #   ;` :@ +` `+ #;     #  `@`:.               '':';:'#@;:'\n"
+   "      ;    #. +    ,.#    ;` :`  + '`  ;     #  `;  #               ''',:'##@;+:\n"
+   "      ;  ;':. '    ,+.    ;` :`  # +   ;     #  `;  #               '';:;'+#@#@@\n"
+   " :.   ; #  :. '    ,.'`   ;` :`  # +   ;     #  `;  #               '':+;:'#@;,'\n"
+   "  +``#  # .@. +  # ,. +`  ;` :`  # .; #;     #  `;  # .  ,  .       '':';:'#;,,+\n"
+   "   ..    ..`   ..  `   .  `  `   .  `. ;     .   `  . `  .  `       ''',:'##@;+:\n"
+   "                                   `` ,:                            ':+:;';;#+#+\n"
+   "                                    '+,                             ' ,+;:;''#@@\n"
+   "                                                                    ' ,';:;+##@@\n\n"))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages (quote (restclient rest-client magit cider))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

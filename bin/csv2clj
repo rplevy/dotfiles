@@ -6,7 +6,7 @@
    keys are the column names, with whitespace"
   (:require [clojure.string :as s]
             [cljs.pprint :refer [pprint]]
-            [planck.core :refer [slurp *command-line-args* *in* line-seq]]
+            [planck.core :refer [slurp *command-line-args* *in* line-seq exit]]
             [testdouble.cljs.csv :as csv]))
 
 (defn last-n-chars [n s]
@@ -20,12 +20,10 @@
          (apply hash-map (interleave col-headings row)))
        rows))
 
-(let [s (first *command-line-args*)
-      csv (if (csv-file-name? s)
-            (slurp s)
-            (or s
-                (apply str (vec (line-seq *in*)))))]
-  (-> csv
-      csv/read-csv
-      csv-rows->maps
-      pprint))
+(-> (if (csv-file-name? (first *command-line-args*))
+      (slurp (first *command-line-args*))
+      (do (println "Usage: csv2clj $FILENAME.csv")
+          (exit 1)))
+    csv/read-csv
+    csv-rows->maps
+    pprint)

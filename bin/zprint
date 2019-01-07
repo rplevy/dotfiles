@@ -4,6 +4,7 @@
   (:require [zprint.core :as zp]))
 
 (zp/zprint (slurp *in*) 80 {:parse-string-all? true
-                            :parse {:interpose "\n\n"}})
+                            :parse {:interpose "\n\n"}
+                            :map {:comma? false}})
 
 (System/exit 0)
