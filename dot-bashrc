@@ -1,14 +1,20 @@
-# ~/.bashrc: executed by bash(1) for non-login shells.
+if [ -f /Library ] # mac os
+then
+    export PATH=$PATH:/usr/local/Cellar/emacs/24.3/bin
+    export ANDROID_HOME=$HOME/Library/Android/sdk/
+    export ANDROID_NDK_HOME=$HOME/Library/Android/sdk/ndk-bundle/
+    export JAVA_HOME=$(/usr/libexec/java_home)
+    . /usr/local/opt/nvm/nvm.sh
+else # linux
+    alias pbcopy='xclip -selection clipboard'
+    alias pbpaste='xclip -selection clipboard -o'
+fi
 
-export PATH="/usr/local/Cellar/emacs/24.3/bin:$HOME/bin:/usr/local/sbin:$HOME/Library/Android/sdk/tools/bin:$HOME/Library/Python/3.7/bin/:"$PATH
-export JAVA_HOME=$(/usr/libexec/java_home)
-export ANDROID_HOME=$HOME/Library/Android/sdk/
-export ANDROID_NDK_HOME=$HOME/Library/Android/sdk/ndk-bundle/
+export PATH="$HOME/bin:/usr/local/sbin:$HOME/Library/Android/sdk/tools/bin:$HOME/Library/Python/3.7/bin/:"$PATH
 export PAGER=cat
 export EDITOR=emacs
 export PS1='\u:\A:\w\$ '
 export NVM_DIR=$HOME/.nvm
-. /usr/local/opt/nvm/nvm.sh
 
 epoch-now() { date +%s; }
 from-epoch() { date -r $1 '+%m/%d/%Y:%H:%M:%S'; }
@@ -27,6 +33,7 @@ alias zookeeper="$CONFLUENT_HOME/bin/zookeeper-server-start $CONFLUENT_HOME/etc/
 alias kafka="$CONFLUENT_HOME/bin/kafka-server-start $CONFLUENT_HOME/etc/kafka/server.properties"
 alias schemareg="$CONFLUENT_HOME/bin/schema-registry-start $CONFLUENT_HOME/etc/schema-registry/schema-registry.properties"
 alias kafkarestproxy="$CONFLUENT_HOME/bin/kafka-rest-start"
+
 
 
 . ~/.bashrc-private
