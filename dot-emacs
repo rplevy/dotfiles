@@ -21,6 +21,10 @@
   (package-refresh-contents)
   (package-install 'restclient))
 
+(defun overwrite-mode ()
+  (interactive)
+  (message "oops, accidentally pressed insert again"))
+
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
 (require 'uniquify)
