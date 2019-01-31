@@ -1,0 +1,1 @@
+*/15 * * * * pkill -9 "Microsoft Outlook" && open -a "/Applications/Microsoft Outlook.app/Contents/MacOS/Microsoft Outlook" &
