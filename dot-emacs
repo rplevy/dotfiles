@@ -179,6 +179,8 @@
 
 (defregexp kw->jsonkw ":\\([^ ]+\\) " "\"\\1\": ")
 
+(setq vc-follow-symlinks t)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
