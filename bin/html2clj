@@ -7,7 +7,8 @@
   (:require [clojure.string :as s]
             [clojure.walk :as w]
             [cljs.pprint :refer [pprint]]
-            [planck.core :refer [slurp *command-line-args* *in* line-seq]]
+            [planck.core :refer [slurp *command-line-args*
+                                 *in* line-seq]]
             [tubax.core :as tubax]))
 
 ;;------------------------------------------------------------------------------
