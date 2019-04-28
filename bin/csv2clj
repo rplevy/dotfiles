@@ -1,4 +1,8 @@
-#!/usr/bin/env plk -Sdeps {:deps,{testdouble/clojurescript.csv,{:mvn/version,"0.3.0"}}}
+#!/usr/bin/env bash
+"exec" "plk" \
+       "-Sdeps" \
+       "{:deps {testdouble/clojurescript.csv {:mvn/version \"0.3.0\"}}}" \
+       "-Ksf" "$0" "$@"
 
 (ns scripts.csv2clj
   "reads a csv file, where the first column is expected to be the
