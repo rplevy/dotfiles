@@ -4,8 +4,8 @@
        "-Ksf" "$0" "$@"
 
 (ns scripts.html2clj
-  (:require [clojure.string :as s]
-            [clojure.walk :as w]
+  (:require [clojure.string :as string]
+            [clojure.walk :as walk]
             [cljs.pprint :refer [pprint]]
             [planck.core :refer [slurp *command-line-args*
                                  *in* line-seq]]
@@ -16,9 +16,9 @@
 (defn string->tokens
   "Takes a string with syles and parses it into properties and value tokens"
   [style]
-  (->> (s/split style #";")
-       (mapcat #(s/split % #":"))
-       (map s/trim)))
+  (->> (string/split style #";")
+       (mapcat #(string/split % #":"))
+       (map string/trim)))
 
 (defn tokens->map
   "Takes a seq of tokens with the properties (even) and their values (odd)
@@ -52,7 +52,7 @@
   (:tag m))
 
 (defn xml-data->sablono [m]
-  (w/postwalk
+  (walk/postwalk
    (fn [x]
      (if (elem? x)
        (xml-element->sablono-element x)
