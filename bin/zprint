@@ -1,4 +1,7 @@
-#!/usr/bin/env clj -Sdeps {:deps,{zprint,{:mvn/version,"0.4.9"}}}
+#!/usr/bin/env bash
+"exec" "clj" \
+       "-Sdeps" "{:deps {zprint {:mvn/version \"0.4.9\"}}}" \
+       "$0" "$@"
 
 (ns scripts.zprint
   (:require [zprint.core :as zp]))
