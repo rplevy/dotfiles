@@ -1,0 +1,11 @@
+#!/usr/bin/env plk
+
+(ns scripts.ced
+  (:require [clojure.string :as str]
+            [planck.core :refer [*in* line-seq]]))
+
+(doseq [line (line-seq *in*)]
+  (println
+    (str/replace line
+      (re-pattern (first *command-line-args*))
+      (second *command-line-args*))))
