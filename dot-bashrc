@@ -15,6 +15,7 @@ export PAGER=cat
 export EDITOR=emacs
 export PS1='\u:\A:\w\$ '
 export NVM_DIR=$HOME/.nvm
+export DATOMIC_HOME=$HOME/bin/datomic-free-0.9.5703
 
 epoch-now() { date +%s; }
 from-epoch() { date -r $1 '+%m/%d/%Y:%H:%M:%S'; }
