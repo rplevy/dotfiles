@@ -1,0 +1,25 @@
+#!/usr/bin/env plk
+
+(ns scripts.print-table
+  (:require [cljs.pprint :as pprint]
+            [cljs.reader :as r]
+            [planck.core :refer [line-seq *in*]]))
+
+(defn read-data
+  "read json or edn, it's all good"
+  [data]
+  (try
+    (js->clj (.parse js/JSON data))
+    (catch js/Object e
+      (map
+        #(reduce-kv (fn [r k v] (assoc r (name k) v)) {} %) ; stringfy col labels
+        (r/read-string data)))))
+
+(->>
+  (apply str (line-seq *in*))
+  read-data
+  pprint/print-table)
+
+;; tests:
+;; echo '[{:a 1 :b 2} {:a 2 :b 3}]' | print-table
+;; echo '[{"a": "1", "b": "2"}, {"a": "2", "b": "3"}]' | print-table
