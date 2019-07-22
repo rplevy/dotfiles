@@ -1,8 +1,8 @@
 if [ -e /Library ]
 then # mac os
     export PATH=$PATH:/usr/local/Cellar/emacs/24.3/bin
-    export ANDROID_HOME=$HOME/Library/Android/sdk/
-    export ANDROID_NDK_HOME=$HOME/Library/Android/sdk/ndk-bundle/
+#    export ANDROID_HOME=$HOME/Library/Android/sdk/
+#    export ANDROID_NDK_HOME=$HOME/Library/Android/sdk/ndk-bundle/
     export JAVA_HOME=$(/usr/libexec/java_home)
     # . /usr/local/opt/nvm/nvm.sh
 else # linux
