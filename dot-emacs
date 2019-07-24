@@ -173,6 +173,8 @@
 
 (defshellonreg edn->json "edn2json" t)
 
+(defshellonreg json->edn "json2edn | ced '#js' '' | zprint" t)
+
 (defshellonreg print-table "print-table" t)
 
 (defshell uuid "uuidgen | awk '{print tolower($0)}' | tr -d '\n'")
