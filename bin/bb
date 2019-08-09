@@ -6,9 +6,10 @@
             [clojure.string :as str]
             [planck.core :refer [*command-line-args* *in* line-seq]]))
 
-(let [expr (first *command-line-args*)]
-  (doseq [line (line-seq *in*)]
-    (println (eval (r/read-string (str/replace expr #"\*in\*" line))))))
+(let [expr-str (first *command-line-args*)]
+  (doseq [piped-line (line-seq *in*)]
+    (println (eval (r/read-string
+                     (str/replace expr-str #"\*in\*" piped-line))))))
 
 ;; example:
 ;;
