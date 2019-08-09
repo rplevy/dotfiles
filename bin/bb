@@ -1,0 +1,28 @@
+#!/usr/bin/env plk
+
+(ns scripts.bb
+  "an alternative implementation of https://github.com/borkdude/babashka"
+  (:require [cljs.reader :as r]
+            [clojure.string :as str]
+            [planck.core :refer [*command-line-args* *in* line-seq]]))
+
+(let [expr (first *command-line-args*)]
+  (doseq [line (line-seq *in*)]
+    (println (eval (r/read-string (str/replace expr #"\*in\*" line))))))
+
+;; example:
+;;
+;; $ echo 1 > /tmp/foo
+;; $ echo 2 >> /tmp/foo
+;; $ echo 3 >> /tmp/foo
+;; $ cat /tmp/foo
+;;
+;; 1
+;; 2
+;; 3
+;;
+;; $ cat /tmp/foo | bb '(+ 1 *in*)'
+;;
+;; 2
+;; 3
+;; 4
