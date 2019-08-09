@@ -14,7 +14,6 @@ export PATH="$HOME/bin:/usr/local/sbin:$HOME/Library/Android/sdk/tools/bin:$HOME
 export PAGER=cat
 export EDITOR=emacs
 export PS1='\u:\A:\w\$ '
-export NVM_DIR=$HOME/.nvm
 export DATOMIC_HOME=$HOME/bin/datomic-free-0.9.5703
 
 epoch-now() { date +%s; }
@@ -38,3 +37,10 @@ alias kafkarestproxy="$CONFLUENT_HOME/bin/kafka-rest-start"
 
 
 . ~/.bashrc-private
+
+#export NVM_DIR="${XDG_CONFIG_HOME/:-$HOME/.}nvm"
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
