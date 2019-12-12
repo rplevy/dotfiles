@@ -25,6 +25,7 @@ latest_tag() { git describe --tags --abbrev=0; }
 
 esq() { curl -s -XGET "$ELASTICSEARCH_READ_URL"/_search -d '{"query": '"$1"'}'; } # eg. esq '{"match_all": {}}' | jq
 esqp() { curl -s -XGET "$ELASTICSEARCH_READ_URL"/_search -d '{"query": '"$1"'}'; }
+function tacocat () { cat $1; tac $1; }
 
 export CONFLUENT_HOME=$HOME/bin/confluent-1.0
 export SCHEMA_DIR=$HOME/schemas
