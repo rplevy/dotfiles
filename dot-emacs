@@ -21,6 +21,8 @@
   (package-refresh-contents)
   (package-install 'restclient))
 
+(load "~/prj/wtd/wtd.el")
+
 (defun overwrite-mode ()
   (interactive)
   (message "oops, accidentally pressed insert again"))
@@ -188,6 +190,8 @@
 (setq clojure-indent-style 'always-indent)
 
 (setq js-indent-level 2)
+
+(setq org-return-follows-link t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
