@@ -5,6 +5,7 @@
 (setq whitespace-style '(face empty tabs lines-tail trailing))
 (global-whitespace-mode t)
 
+(setq package-check-signature nil)
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
@@ -219,3 +220,6 @@
 (if (or (file-exists-p (concat default-directory "project.clj"))
         (file-exists-p (concat default-directory "deps.edn")))
     (cider-jack-in))
+
+
+(buffer-substring (point-at-bol) (point-at-eol))
