@@ -22,6 +22,7 @@
   (package-refresh-contents)
   (package-install 'restclient))
 
+(require 'eshell)
 (load "~/prj/wtd/wtd.el")
 
 (defun overwrite-mode ()
