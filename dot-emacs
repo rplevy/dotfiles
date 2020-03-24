@@ -181,6 +181,8 @@
 
 (defshellonreg print-table "print-table" t)
 
+(defshellonreg jq "jq ." t)
+
 (defshell uuid "uuidgen | awk '{print tolower($0)}' | tr -d '\n'")
 
 (defshell ls "ls")
