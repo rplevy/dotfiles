@@ -191,7 +191,7 @@
 
 (setq vc-follow-symlinks t)
 
-(setq clojure-indent-style 'always-indent)
+(setq clojure-indent-style 'always-align)
 
 (setq js-indent-level 2)
 
