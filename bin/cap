@@ -1,0 +1,5 @@
+#!/bin/sh
+
+screencapture -i /tmp/ocr.png
+/usr/local/bin/tesseract /tmp/ocr.png /tmp/ocr
+cat /tmp/ocr.txt | pbcopy
