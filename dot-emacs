@@ -182,6 +182,8 @@
 
 (defshellonreg print-table "print-table" t)
 
+(defshellonreg jq "jq ." t)
+
 (defshell uuid "uuidgen | awk '{print tolower($0)}' | tr -d '\n'")
 
 (defshell ls "ls")
@@ -190,7 +192,7 @@
 
 (setq vc-follow-symlinks t)
 
-(setq clojure-indent-style 'always-indent)
+(setq clojure-indent-style 'always-align)
 
 (setq js-indent-level 2)
 
