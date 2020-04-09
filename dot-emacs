@@ -24,6 +24,7 @@
 
 (require 'eshell)
 (load "~/prj/wtd/wtd.el")
+(load "~/.emacs.d/wtd-defs.el")
 
 (defun overwrite-mode ()
   (interactive)
