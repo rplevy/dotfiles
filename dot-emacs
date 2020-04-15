@@ -128,14 +128,18 @@
     (goto-char beginning)
     (insert (funcall f region-text))))
 
-(defun org-block-region ()
-  (interactive)
+(defun preserve-indenting (region-text)
   (let* ((start-col (save-excursion (goto-char (region-beginning))
                                     (current-column)))
          (spacer (apply 'concat (make-list start-col "\s"))))
-    (apply-region
-     (lambda (region-text)
-       (concat "#+BEGIN_SRC\n" spacer region-text "\n" spacer "#+END_SRC\n")))))
+    (concat "\n" spacer region-text "\n" spacer)))
+
+(defun org-block-region ()
+  (interactive)
+  (apply-region
+   (lambda (region-text)
+     (concat "#+BEGIN_SRC" (preserve-indenting region-text)
+             "#+END_SRC\n"))))
 
 (defun iwb ()
   "indent whole buffer"
