@@ -119,28 +119,6 @@
 
 (global-set-key "\M-Q" 'unfill-paragraph)
 
-(defun apply-region (f)
-  ;; f gets region text, output of f replaces region text
-  (let* ((beginning   (region-beginning))
-         (end         (region-end))
-         (region-text (buffer-substring beginning end)))
-    (delete-region beginning end)
-    (goto-char beginning)
-    (insert (funcall f region-text))))
-
-(defun preserve-indenting (region-text)
-  (let* ((start-col (save-excursion (goto-char (region-beginning))
-                                    (current-column)))
-         (spacer (apply 'concat (make-list start-col "\s"))))
-    (concat "\n" spacer region-text "\n" spacer)))
-
-(defun org-block-region ()
-  (interactive)
-  (apply-region
-   (lambda (region-text)
-     (concat "#+BEGIN_SRC" (preserve-indenting region-text)
-             "#+END_SRC\n"))))
-
 (defun iwb ()
   "indent whole buffer"
   (interactive)
@@ -167,6 +145,28 @@
      (shell-command-on-region beg end ,cmd
                               (if ,replace (current-buffer) nil)
                               ,replace)))
+
+(defun preserve-indenting (region-text)
+  (let* ((start-col (save-excursion (goto-char (region-beginning))
+                                    (current-column)))
+         (spacer (apply 'concat (make-list start-col "\s"))))
+    (concat "\n" spacer region-text "\n" spacer)))
+
+(defun apply-region (f)
+  ;; f gets region text, output of f replaces region text
+  (let* ((beginning   (region-beginning))
+         (end         (region-end))
+         (region-text (buffer-substring beginning end)))
+    (delete-region beginning end)
+    (goto-char beginning)
+    (insert (funcall f region-text))))
+
+(defmacro defunonreg (name arg-list &rest expressions)
+  `(defun ,name ()
+     (interactive)
+     (apply-region
+      (lambda ,arg-list
+        ,@expressions))))
 
 (defmacro defregexp (name a b)
   `(defun ,name ()
@@ -223,6 +223,10 @@
 (defshell ls "ls")
 
 (defregexp kw->jsonkw ":\\([^ ]+\\) " "\"\\1\": ")
+
+(defunonreg org-block-region (region-text)
+  (concat "#+BEGIN_SRC" (preserve-indenting region-text)
+          "#+END_SRC\n"))
 
 (setq vc-follow-symlinks t)
 
