@@ -119,6 +119,24 @@
 
 (global-set-key "\M-Q" 'unfill-paragraph)
 
+(defun apply-region (f)
+  ;; f gets region text, output of f replaces region text
+  (let* ((beginning   (region-beginning))
+         (end         (region-end))
+         (region-text (buffer-substring beginning end)))
+    (delete-region beginning end)
+    (goto-char beginning)
+    (insert (funcall f region-text))))
+
+(defun org-block-region ()
+  (interactive)
+  (let* ((start-col (save-excursion (goto-char (region-beginning))
+                                    (current-column)))
+         (spacer (apply 'concat (make-list start-col "\s"))))
+    (apply-region
+     (lambda (region-text)
+       (concat "#+BEGIN_SRC\n" spacer region-text "\n" spacer "#+END_SRC\n")))))
+
 (defun iwb ()
   "indent whole buffer"
   (interactive)
