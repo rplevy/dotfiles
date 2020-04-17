@@ -228,6 +228,8 @@
   (concat "#+BEGIN_SRC" (preserve-indenting region-text)
           "#+END_SRC\n"))
 
+(defshellonreg sort-uniq "sort | uniq" t)
+
 (setq vc-follow-symlinks t)
 
 (setq clojure-indent-style 'always-align)
