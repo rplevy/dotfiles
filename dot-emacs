@@ -21,6 +21,8 @@
 (unless (package-installed-p 'restclient)
   (package-refresh-contents)
   (package-install 'restclient))
+(unless (package-installed-p 'twittering-mode)
+  (package-install 'twittering-mode))
 
 (require 'eshell)
 (load "~/prj/wtd/wtd.el")
@@ -224,6 +226,11 @@
 
 (defregexp kw->jsonkw ":\\([^ ]+\\) " "\"\\1\": ")
 
+(defunonreg tweet-region (region-text)
+  (twittering-call-api
+   'update-status
+   `((status . ,region-text))))
+
 (defunonreg org-block-region (region-text)
   (concat "#+BEGIN_SRC" (preserve-indenting region-text)
           "#+END_SRC\n"))
@@ -245,7 +252,8 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (yaml-mode markdown-mode restclient rest-client magit cider))))
+    (twittering-mode yaml-mode markdown-mode restclient rest-client magit cider))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
