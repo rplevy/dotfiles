@@ -179,6 +179,13 @@
                      (if (use-region-p) (region-end))
                      nil)))
 
+;; this turns out to be less useful than expected because it's really
+;; the string escaping in emacs lisp that is annoying, not the native
+;; regexp support so much.  So the clojure regexps end up looking the
+;; same as the emacs ones.
+(defmacro defcljregexp (name a b)
+  `(defshellonreg ,name (concat "ced " ,a " " ,b)))
+
 (if (equal "" (shell-command-to-string "which pbcopy"))
     ;; linux
     (defshellonreg pbcopy-region "xclip -selection clipboard")
