@@ -226,10 +226,14 @@
 
 (defregexp kw->jsonkw ":\\([^ ]+\\) " "\"\\1\": ")
 
+(defunonreg count-chars (region-text)
+  (concat region-text " " (number-to-string (length region-text))))
+
 (defunonreg tweet-region (region-text)
   (twittering-call-api
    'update-status
-   `((status . ,region-text))))
+   `((status . ,region-text)))
+  region-text)
 
 (defunonreg org-block-region (region-text)
   (concat "#+BEGIN_SRC" (preserve-indenting region-text)
