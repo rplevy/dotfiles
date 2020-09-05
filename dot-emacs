@@ -21,6 +21,8 @@
 (unless (package-installed-p 'restclient)
   (package-refresh-contents)
   (package-install 'restclient))
+(unless (package-installed-p 'twittering-mode)
+  (package-install 'twittering-mode))
 
 (require 'eshell)
 (load "~/prj/wtd/wtd.el")
@@ -177,6 +179,13 @@
                      (if (use-region-p) (region-end))
                      nil)))
 
+;; this turns out to be less useful than expected because it's really
+;; the string escaping in emacs lisp that is annoying, not the native
+;; regexp support so much.  So the clojure regexps end up looking the
+;; same as the emacs ones.
+(defmacro defcljregexp (name a b)
+  `(defshellonreg ,name (concat "ced " ,a " " ,b)))
+
 (if (equal "" (shell-command-to-string "which pbcopy"))
     ;; linux
     (defshellonreg pbcopy-region "xclip -selection clipboard")
@@ -224,6 +233,15 @@
 
 (defregexp kw->jsonkw ":\\([^ ]+\\) " "\"\\1\": ")
 
+(defunonreg count-chars (region-text)
+  (concat region-text " " (number-to-string (length region-text))))
+
+(defunonreg tweet-region (region-text)
+  (twittering-call-api
+   'update-status
+   `((status . ,region-text)))
+  region-text)
+
 (defunonreg org-block-region (region-text)
   (concat "#+BEGIN_SRC" (preserve-indenting region-text)
           "#+END_SRC\n"))
@@ -245,7 +263,8 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (yaml-mode markdown-mode restclient rest-client magit cider))))
+    (twittering-mode yaml-mode markdown-mode restclient rest-client magit cider))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
