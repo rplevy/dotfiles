@@ -205,8 +205,12 @@
 (defun zprint-sexp ()
   (interactive)
   (mark-sexp)
-  (zprint-region (region-beginning) (region-end))
-  (indent-region (region-beginning) (region-end)))
+  (let ((b (region-beginning))
+        (e (region-end)))
+    (replace-regexp "\(" "\[" nil b e nil)
+    (replace-regexp "\)" "\]" nil b e nil)
+    (zprint-region b e)
+    (indent-sexp)))
 
 (defshellonreg sort-sexp-region "sort-sexp" t)
 
