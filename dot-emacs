@@ -73,6 +73,7 @@
 (global-set-key (kbd "\C-c d") 'browse-url)
 (global-set-key (kbd "C-c w") 'delete-trailing-whitespace)
 (global-set-key (kbd "C-c u") 'mark-sexp)
+(global-set-key (kbd "C-c i") 'indent-sexp)
 
 (defun split-window-one-fourth ()
   (interactive)
