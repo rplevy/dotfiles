@@ -46,7 +46,7 @@ export NVM_DIR="$HOME/.nvm"
 function stay-connected () {
     while :
     do
-        sleep 5s
+        sleep $WIFI_CHECK_INTERVAL
         echo checking connection...
         if ! [ "$(ping -c 1 google.com)" ]
         then
