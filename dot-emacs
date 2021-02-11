@@ -73,6 +73,7 @@
 (global-set-key (kbd "\C-c d") 'browse-url)
 (global-set-key (kbd "C-c w") 'delete-trailing-whitespace)
 (global-set-key (kbd "C-c u") 'mark-sexp)
+(global-set-key (kbd "C-c i") 'indent-sexp)
 
 (defun split-window-one-fourth ()
   (interactive)
@@ -205,8 +206,12 @@
 (defun zprint-sexp ()
   (interactive)
   (mark-sexp)
-  (zprint-region (region-beginning) (region-end))
-  (indent-region (region-beginning) (region-end)))
+  (let ((b (region-beginning))
+        (e (region-end)))
+    (replace-regexp "\(" "\[" nil b e nil)
+    (replace-regexp "\)" "\]" nil b e nil)
+    (zprint-region b e)
+    (indent-sexp)))
 
 (defshellonreg sort-sexp-region "sort-sexp" t)
 
@@ -263,7 +268,39 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (twittering-mode yaml-mode markdown-mode restclient rest-client magit cider))))
+    (twittering-mode yaml-mode markdown-mode restclient rest-client magit cider)))
+ '(safe-local-variable-values
+   (quote
+    ((cljr-favor-prefix-notation . t)
+     (eval progn
+           (put
+            (quote s/defn)
+            (quote clojure-doc-string-elt)
+            2)
+           (define-clojure-indent
+             (puppetlabs\.trapperkeeper\.core/defservice
+              (quote
+               (:defn
+                (:defn))))
+             (trapperkeeper/defservice
+              (quote
+               (:defn
+                (:defn))))
+             (tk/defservice
+              (quote
+               (:defn
+                (:defn))))
+             (defservice
+               (quote
+                (:defn
+                 (:defn))))
+             (context 2)
+             (DELETE 2)
+             (GET 2)
+             (PATCH 2)
+             (POST 2)
+             (PUT 2)))
+     (magit-todos-exclude-globs "*.html" "*.org" "*.md" "*.map")))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

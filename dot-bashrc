@@ -41,3 +41,17 @@ alias kafkarestproxy="$CONFLUENT_HOME/bin/kafka-rest-start"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# solution to AirBnB wifi access point dropping internet connection
+function stay-connected () {
+    while :
+    do
+        sleep $WIFI_CHECK_INTERVAL
+        echo checking connection...
+        if ! [ "$(ping -c 1 google.com)" ]
+        then
+            echo lost connection, attempting to reconnect...
+            networksetup -setairportnetwork en0 $WIFI_AP $WIFI_PW
+        fi
+    done
+}
