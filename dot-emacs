@@ -25,8 +25,8 @@
   (package-install 'twittering-mode))
 
 (require 'eshell)
+
 (load "~/prj/wtd/wtd.el")
-(load "~/prj/wtd-personal/wtd-defs.el")
 
 (defun overwrite-mode ()
   (interactive)
@@ -270,7 +270,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (twittering-mode yaml-mode markdown-mode restclient rest-client magit cider)))
+    (request twittering-mode yaml-mode markdown-mode restclient rest-client magit cider)))
  '(safe-local-variable-values
    (quote
     ((eval add-to-list
