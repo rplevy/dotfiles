@@ -359,3 +359,4 @@
 
 
 (buffer-substring (point-at-bol) (point-at-eol))
+(put 'list-timers 'disabled nil)
