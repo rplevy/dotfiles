@@ -234,6 +234,10 @@
 
 (defshell uuid "uuidgen | awk '{print tolower($0)}' | tr -d '\n'")
 
+(defshell stepsdata "stepsdata")
+
+(defshell sleepdata "sleepdata")
+
 (defshell ls "ls")
 
 (defregexp kw->jsonkw ":\\([^ ]+\\) " "\"\\1\": ")

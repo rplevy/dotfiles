@@ -1,0 +1,6 @@
+#!/bin/sh
+
+mkdir -p ~/.fitnessdata
+
+# download sqlite db from phone
+scp -P 8022 u0_a453@10.0.0.18:storage/amazfitneo ~/.fitnessdata

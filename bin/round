@@ -1,0 +1,20 @@
+#!/bin/bash
+
+number=$1
+if [ ! $(echo $number | grep "\.") ]
+then echo $number
+     exit
+fi
+
+whole=$(echo $number | sed -e 's/^\(.*\)\..*/\1/g')
+decimal=$(echo $number | sed -e 's/^.*\.\(.*\)/\1/g' | cut -c1-2)
+if [ $decimal -lt 15 ]
+then echo $whole
+elif [ $decimal -lt 40 ]
+then echo $whole".25"
+elif [ $decimal -lt 65 ]
+then echo $whole".50"
+elif [ $decimal -lt 90 ]
+then echo $whole".75"
+else echo $whole" + 1" | bc
+fi
