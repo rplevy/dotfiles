@@ -11,6 +11,8 @@ export PAGER=cat
 export EDITOR=emacs
 export PS1='\u:\A:\w\$ '
 export DATOMIC_HOME=$HOME/bin/datomic-free-0.9.5703
+export REORG_IDENTITY=prj/wtd-personal/
+export REORG_HOME=prj/reorg.el/
 
 epoch-now() { date +%s; }
 from-epoch() { date -r $1 '+%m/%d/%Y:%H:%M:%S'; }
