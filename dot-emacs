@@ -28,9 +28,21 @@
 
 (load "~/prj/reorg.el/reorg.el")
 
-(defun overwrite-mode ()
-  (interactive)
-  (message "oops, accidentally pressed insert again"))
+(defmacro dysfun (f)
+  `(defun ,f (&optional args)
+     (interactive)
+     (message (concat "a call was made to disabled function "
+                      (symbol-name (quote ,f))))))
+
+;; disable the insert key
+(dysfun overwrite-mode)
+
+;; disable org-mode archiving feature
+(dysfun org-archive-set-tag)
+(dysfun org-archive-subtree)
+(dysfun org-archive-subtree-default)
+(dysfun org-archive-subtree-default-with-confirmation)
+(dysfun org-archive-to-archive-sibling)
 
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
