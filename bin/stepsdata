@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# run getfitnessdata first, or uncomment here
+# getfitnessdata
+
+echo "select sum(STEPS) from MI_BAND_ACTIVITY_SAMPLE where timestamp >= "$(cat ~/.fitnessdata/laststepsdatarun)";" | sqlite3 ~/.fitnessdata/amazfitneo
+
+
+mv ~/.fitnessdata/laststepsdatarun-prev ~/.fitnessdata/laststepsdatarun-prev2
+mv ~/.fitnessdata/laststepsdatarun ~/.fitnessdata/laststepsdatarun-prev
+date +'%s' > ~/.fitnessdata/laststepsdatarun

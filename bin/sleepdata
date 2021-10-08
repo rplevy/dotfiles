@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# run getfitnessdata before running this script or uncomment the next line
+# getfitnessdata
+
+echo "select count(timestamp), strftime('%Y-%m-%d %H:%M', datetime(max(timestamp), 'unixepoch', 'localtime')), min(timestamp), max(timestamp) from MI_BAND_ACTIVITY_SAMPLE where RAW_KIND IN (112, 121, 122, 123, 124) group by strftime('%Y%m%d%H',datetime(timestamp, 'unixepoch'));" | sqlite3 ~/.fitnessdata/amazfitneo > ~/.fitnessdata/sleeptimes
+
+today=$(date -d "$D" '+%d')
+
+woke_up_at=$(tail -n 1 ~/.fitnessdata/sleeptimes | cut -d'|' -f 3)
+
+fell_asleep_at=$(tac ~/.fitnessdata/sleeptimes | while read line; do hour=$(echo $line | sed -e 's/^.* \(..\):.*/\1/g'); day=$(echo $line | sed -e 's/^.*\(..\) ..:.*/\1/g'); if [ $day == $today ]; then echo $line; elif [ $hour -lt 19 ]; then break; else echo $line; fi; done | tail -n 1 | cut -d'|' -f 3)
+
+round $(echo "($woke_up_at - $fell_asleep_at) / 60.0 / 60.0" | bc -l)
