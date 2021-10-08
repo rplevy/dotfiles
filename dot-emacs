@@ -281,9 +281,9 @@
 
 (defun browse-bookmark ()
   (interactive)
-  (let* ((choice (ido-completing-read
-                  "browse url: "
-                  (query-firefox-bookmark-urls))))
+  (let ((choice (ido-completing-read
+                 "browse url: "
+                 (query-firefox-bookmark-urls))))
     (browse-url choice)))
 
 (setq vc-follow-symlinks t)
