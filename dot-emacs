@@ -23,10 +23,11 @@
   (package-install 'restclient))
 (unless (package-installed-p 'twittering-mode)
   (package-install 'twittering-mode))
+(unless (package-installed-p 'esqlite)
+  (package-install 'esqlite))
 
 (require 'eshell)
 (load "~/prj/wtd/wtd.el")
-(load "~/prj/wtd-personal/wtd-defs.el")
 
 (defun overwrite-mode ()
   (interactive)
@@ -254,6 +255,19 @@
           "#+END_SRC\n"))
 
 (defshellonreg sort-uniq "sort | uniq" t)
+
+(require 'esqlite)
+;; ln -s $HOME/Library/Application\ Support/Firefox/Profiles/rwqey9hs.default-release/places.sqlite $HOME/places.sqlite
+(defun query-firefox-bookmark-urls ()
+  (esqlite-read "/Users/roblevy/places.sqlite"
+                "select moz_places.url from moz_bookmarks join moz_places on moz_bookmarks.fk=moz_places.id where moz_bookmarks.parent=(select id from moz_bookmarks where title='toolbar')"))
+
+(defun browse-bookmark ()
+  (interactive)
+  (let* ((choice (ido-completing-read
+                  "browse url: "
+                  (query-firefox-bookmark-urls))))
+    (browse-url choice)))
 
 (setq vc-follow-symlinks t)
 
