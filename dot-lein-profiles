@@ -1,0 +1,2 @@
+{:user {:repl-options {:port 41235}
+        :dependencies [[ring-curl "1.0.1"]]}}
