@@ -412,7 +412,6 @@
              (test-files)))))
 
 (defun cider-fullstart (bfr cmd-home cmd done-indicator-text)
-  (interactive)
   (shell bfr)
   (insert (concat "cd " cmd-home))
   (comint-send-input)
