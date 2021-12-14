@@ -1,6 +1,8 @@
 #!/bin/sh
 
+. ~/.bashrc-private # because I often have to update $PHONEHOST variable first
+
 mkdir -p ~/.fitnessdata
 
 # download sqlite db from phone
-scp -P 8022 u0_a453@$PHONEHOST:storage/amazfitneo ~/.fitnessdata
+scp -P 8022 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null u0_a453@$PHONEHOST:storage/amazfitneo ~/.fitnessdata
