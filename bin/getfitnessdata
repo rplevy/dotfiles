@@ -5,4 +5,4 @@
 mkdir -p ~/.fitnessdata
 
 # download sqlite db from phone
-scp -P 8022 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null u0_a453@$PHONEHOST:storage/amazfitneo ~/.fitnessdata
+scp -q -P 8022 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $PHONEHOST:storage/downloads/amazfitneo ~/.fitnessdata
