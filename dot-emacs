@@ -411,6 +411,10 @@
                (run-tests path-to-file))
              (test-files)))))
 
+(defun cider-c ()
+  (interactive)
+  (cider-connect '(:host "localhost" :port 41235)))
+
 (defun cider-fullstart (bfr cmd-home cmd done-indicator-text)
   (shell bfr)
   (insert (concat "cd " cmd-home))
@@ -424,8 +428,7 @@
                                    last-lines-str))
                    (lambda ()
                      (buffer-tail bfr 1000))
-                   (lambda ()
-                     (cider-connect '(:host "localhost" :port 41235)))
+                   'cider-c
                    0.25))
 
 (load "~/.emacs.d/cisco.el")
