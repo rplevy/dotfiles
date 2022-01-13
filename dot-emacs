@@ -24,6 +24,8 @@
       (package-refresh-contents)
       (package-install e))))
 
+(require 'eshell)
+
 (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
 (setq cider-boot-parameters "dev")
 
