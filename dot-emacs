@@ -20,7 +20,7 @@
            magit
            restclient
            twittering-mode
-           esqlite
+           ;; esqlite
            markdown-mode
            ghub
            deferred
@@ -39,17 +39,19 @@
 (setq max-lisp-eval-depth 10000)
 (setq max-specpdl-size 10000)
 
-(let (v
-      (l '(gh-notify
-           code-review)))
-  (dolist (e l v)
-    (message (concat "~/prj/" (symbol-name e)))
-    (add-to-list 'load-path (concat "~/prj/" (symbol-name e)))
-    (require e)))
+;; (let (v
+;;       (l '(gh-notify
+;;            code-review)))
+;;   (dolist (e l v)
+;;     (message (concat "~/prj/" (symbol-name e)))
+;;     (add-to-list 'load-path (concat "~/prj/" (symbol-name e)))
+;;     (require e)))
 
 (require 'eshell)
 
-(load "~/prj/wtd/wtd.el")
+(if (string= "peirce" (system-name))
+    (load "~/prj/reorg.el/reorg.el")
+  (load "~/prj/wtd/wtd.el"))
 
 (defmacro dysfun (f)
   `(defun ,f (&optional args)
@@ -225,7 +227,7 @@
 (defmacro defcljregexp (name a b)
   `(defshellonreg ,name (concat "ced " ,a " " ,b)))
 
-(if (equal "" (shell-command-to-string "which pbcopy"))
+(if (string= "peirce" (system-name))
     ;; linux
     (defshellonreg pbcopy-region "xclip -selection clipboard")
   ;; mac
@@ -297,18 +299,18 @@
 
 (defshellonreg sort-uniq "sort | uniq" t)
 
-(require 'esqlite)
+;; (require 'esqlite)
 ;; ln -s $HOME/Library/Application\ Support/Firefox/Profiles/rwqey9hs.default-release/places.sqlite $HOME/places.sqlite
-(defun query-firefox-bookmark-urls ()
-  (esqlite-read "/Users/roblevy/places.sqlite"
-                "select moz_places.url from moz_bookmarks join moz_places on moz_bookmarks.fk=moz_places.id where moz_bookmarks.parent=(select id from moz_bookmarks where title='toolbar')"))
+;; (defun query-firefox-bookmark-urls ()
+;;  (esqlite-read "/Users/roblevy/places.sqlite"
+;;                "select moz_places.url from moz_bookmarks join moz_places on moz_bookmarks.fk=moz_places.id where moz_bookmarks.parent=(select id from moz_bookmarks where title='toolbar')"))
 
-(defun browse-bookmark ()
-  (interactive)
-  (let ((choice (ido-completing-read
-                 "browse url: "
-                 (query-firefox-bookmark-urls))))
-    (browse-url choice)))
+;; (defun browse-bookmark ()
+;;   (interactive)
+;;   (let ((choice (ido-completing-read
+;;                  "browse url: "
+;;                  (query-firefox-bookmark-urls))))
+;;     (browse-url choice)))
 
 (defun buffer-tail (bfr char-count)
   (with-current-buffer (get-buffer bfr)
@@ -431,7 +433,9 @@
                    'cider-c
                    0.25))
 
-(load "~/.emacs.d/cisco.el")
+(when (not (string= "peirce" (system-name)))
+  ;; by process of elimination, must be work laptop
+  (load "~/.emacs.d/cisco.el"))
 
 (setq vc-follow-symlinks t)
 
