@@ -7,8 +7,6 @@
 
 (setq package-check-signature nil)
 (require 'package)
-;; (add-to-list 'package-archives
-;;             '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives
              '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (package-initialize)
@@ -20,34 +18,19 @@
            magit
            restclient
            twittering-mode
-           ;; esqlite
-           markdown-mode
-           ghub
-           deferred
-           forge
-           orgit
-           orgit-forge
-           transient)))
+           markdown-mode)))
   (dolist (e l v)
     (unless (package-installed-p e)
       (package-refresh-contents)
       (package-install e))))
+
+(require 'eshell)
 
 (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
 (setq cider-boot-parameters "dev")
 
 (setq max-lisp-eval-depth 10000)
 (setq max-specpdl-size 10000)
-
-;; (let (v
-;;       (l '(gh-notify
-;;            code-review)))
-;;   (dolist (e l v)
-;;     (message (concat "~/prj/" (symbol-name e)))
-;;     (add-to-list 'load-path (concat "~/prj/" (symbol-name e)))
-;;     (require e)))
-
-(require 'eshell)
 
 (if (string= "peirce" (system-name))
     (load "~/prj/reorg.el/reorg.el")
@@ -414,6 +397,10 @@
                (run-tests path-to-file))
              (test-files)))))
 
+(defun cider-c ()
+  (interactive)
+  (cider-connect '(:host "localhost" :port 41235)))
+
 (defun cider-fullstart (bfr cmd-home cmd done-indicator-text)
   (shell bfr)
   (insert (concat "cd " cmd-home))
@@ -427,8 +414,7 @@
                                    last-lines-str))
                    (lambda ()
                      (buffer-tail bfr 1000))
-                   (lambda ()
-                     (cider-connect '(:host "localhost" :port 41235)))
+                   'cider-c
                    0.25))
 
 (when (not (string= "peirce" (system-name)))
@@ -443,13 +429,17 @@
 
 (setq org-return-follows-link t)
 
+(beacon-mode 1)
+(setq beacon-blink-when-window-scrolls 1)
+(global-set-key (kbd "C-c b") 'beacon-blink)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(orgit-forge orgit transient forge deferred ghub uuidgen closql request twittering-mode yaml-mode markdown-mode restclient rest-client magit cider))
+   '(beacon uuidgen closql request twittering-mode yaml-mode markdown-mode restclient rest-client magit cider))
  '(safe-local-variable-values
    '((eval add-to-list 'auto-mode-alist
            '("\\.clj-template$" . clojure-mode))
