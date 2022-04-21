@@ -1,0 +1,3 @@
+#!/bin/sh
+
+zprint $1 2> /dev/null

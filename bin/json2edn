@@ -1,7 +1,0 @@
-#!/usr/bin/env plk
-
-(ns scripts.json2edn
-  (:require [cljs.pprint :refer [pprint]]
-            [planck.core :refer [*in* line-seq]]))
-
-(->> (line-seq *in*) (apply str) js->clj (.parse js/JSON) pprint)

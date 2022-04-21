@@ -219,7 +219,7 @@
 
 (defshellonreg xml->clj-region "xmlclj" t)
 
-(defshellonreg zprint-region "zprint" t)
+(defshellonreg zprint-region "zprint-quiet" t)
 
 (defun zwb ()
   (interactive)
@@ -248,11 +248,15 @@
 
 (defshellonreg htm2clj-region "html2clj" t)
 
-(defshellonreg edn->json "edn2json" t)
+(defshellonreg to-json-region "jet --from edn --to json" t)
 
-(defshellonreg json->edn "json2edn | ced '#js' '' | zprint" t)
+(defshellonreg to-json-formatted-region "jet --from edn --to json | jq" t)
 
-(defshellonreg print-table "print-table" t)
+(defshellonreg to-edn-region "jet --from json --to edn" t)
+
+(defshellonreg to-edn-formatted-region "jet --from json --to edn | zprint-quiet" t)
+
+(defshellonreg print-table-region "print-table" t)
 
 (defshellonreg jq "jq ." t)
 
