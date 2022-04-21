@@ -114,6 +114,7 @@
 (global-set-key (kbd "C-c w") 'delete-trailing-whitespace)
 (global-set-key (kbd "C-c u") 'mark-sexp)
 (global-set-key (kbd "C-c i") 'indent-sexp)
+(global-set-key (kbd "C-c t") 'org-insert-todo-heading)
 
 (defun split-window-one-fourth ()
   (interactive)
