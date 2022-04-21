@@ -6,7 +6,7 @@
 # cljq ~/example.json '(transform [MAP-VALS MAP-VALS] #(vector :foo %) ?)'
 
 cat $1 | \
-    jet --from json --to edn | \
+    jet --from json --to edn --keywordize | \
     specter -e "$2" | \
     jet --from edn --to json | \
     jq
