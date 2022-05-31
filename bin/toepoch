@@ -1,0 +1,5 @@
+#!/bin/sh
+
+inp=$1
+isodate=$(echo $inp | cut -c1-4)-$(echo $inp | cut -c5-6)-$(echo $inp | cut -c7-8)T$(echo $inp | cut -c9-10):$(echo $inp | cut -c11-12):$(echo $inp | cut -c13-14)
+date -d"$isodate" +%s

@@ -2,9 +2,6 @@
 
 getfitnessdata
 
-echo "select sum(STEPS) from MI_BAND_ACTIVITY_SAMPLE where timestamp >= "$(cat ~/.fitnessdata/laststepsdatarun)";" | sqlite3 ~/.fitnessdata/amazfitneo
+laststamp=$(toepoch $(grep steps.log-steps ~/prj/wtd-personal/journal.org | head -n 1 | sed -e 's/.*log-steps //g'))
 
-
-mv ~/.fitnessdata/laststepsdatarun-prev ~/.fitnessdata/laststepsdatarun-prev2
-mv ~/.fitnessdata/laststepsdatarun ~/.fitnessdata/laststepsdatarun-prev
-date +'%s' > ~/.fitnessdata/laststepsdatarun
+echo "select sum(STEPS) from MI_BAND_ACTIVITY_SAMPLE where timestamp >= "$laststamp";" | sqlite3 ~/.fitnessdata/amazfitneo
