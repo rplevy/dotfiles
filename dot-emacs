@@ -11,7 +11,8 @@
              '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (package-initialize)
 (let (v
-      (l '(clojure-mode
+      (l '(beacon
+           clojure-mode
            cider
            closql
            uuidgen
@@ -443,63 +444,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(beacon uuidgen closql request twittering-mode yaml-mode markdown-mode restclient rest-client magit cider))
- '(safe-local-variable-values
-   '((eval add-to-list 'auto-mode-alist
-           '("\\.clj-template$" . clojure-mode))
-     (eval progn
-           (put 's/defn 'clojure-doc-string-elt 2)
-           (define-clojure-indent
-             (puppetlabs\.trapperkeeper\.core/defservice
-              '(:defn
-                (:defn)))
-             (trapperkeeper/defservice
-              '(:defn
-                (:defn)))
-             (tk/defservice
-              '(:defn
-                (:defn)))
-             (defservice
-               '(:defn
-                 (:defn)))
-             (dotests 2)
-             (context 2)
-             (DELETE 2)
-             (GET 2)
-             (PATCH 2)
-             (POST 2)
-             (PUT 2)))
-     (cljr-favor-prefix-notation)
-     (cljr-favor-prefix-notation . t)
-     (eval progn
-           (put 's/defn 'clojure-doc-string-elt 2)
-           (define-clojure-indent
-             (puppetlabs\.trapperkeeper\.core/defservice
-              '(:defn
-                (:defn)))
-             (trapperkeeper/defservice
-              '(:defn
-                (:defn)))
-             (tk/defservice
-              '(:defn
-                (:defn)))
-             (defservice
-               '(:defn
-                 (:defn)))
-             (context 2)
-             (DELETE 2)
-             (GET 2)
-             (PATCH 2)
-             (POST 2)
-             (PUT 2)))
-     (magit-todos-exclude-globs "*.html" "*.org" "*.md" "*.map"))))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+   '(beacon uuidgen closql request twittering-mode yaml-mode markdown-mode restclient rest-client magit cider)))
 
 (setq initial-scratch-message
   (concat
