@@ -59,3 +59,9 @@ function stay-connected () {
 }
 
 alias internalip="hostname -I | cut -d' ' -f1"
+
+function get-blame-last-updated() {
+  git ls-files | while read f ; do echo $f" "$(for y in $(git blame $f --porcelain | grep '^author-time' | perl -p -e 's|author-time (.*)|($x_,$x_,$x_,$x_,$x_,$year) = localtime($1); (1900 + $year) |e') ; do echo $y ; done | sort -nr | head -n 1); done
+}
+
+alias sll="/usr/local/opt/gnu-sed/libexec/gnubin/sed '/^.\{2000\}./d'"

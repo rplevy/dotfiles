@@ -55,9 +55,6 @@
 
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
-(with-eval-after-load 'magit
-  (require 'forge))
-
 (require 'uniquify)
 (setq-default uniquify-buffer-name-style 'post-forward-angle-brackets)
 
@@ -220,7 +217,7 @@
 
 (defshellonreg xml->clj-region "xmlclj" t)
 
-(defshellonreg zprint-region "zprint-quiet" t)
+(defshellonreg zprint-region "zprint" t)
 
 (defun zwb ()
   (interactive)
@@ -273,6 +270,8 @@
 
 (defregexp kw->str ":\\([^ ]+\\) " "\"\\1\"")
 
+(defregexp str->kw "\"\\([^ ]+\\)\"" ":\\1")
+
 (defunonreg count-chars (region-text)
   (concat region-text " " (number-to-string (length region-text))))
 
@@ -287,6 +286,29 @@
           "#+END_SRC\n"))
 
 (defshellonreg sort-uniq "sort | uniq" t)
+
+(defun diff-last-two-kills (&optional ediff?)
+  "Diff last couple of things in the kill-ring. With prefix open ediff.
+   Author: Ag Ibragimov"
+  (interactive "P")
+  (require 'ediff)
+  (let* ((old "/tmp/old-kill")
+         (new "/tmp/new-kill")
+         (prev-ediff-quit-hook ediff-quit-hook))
+    (cl-flet ((kill-temps
+                ()
+                (dolist (f (list old new))
+                  (kill-buffer (find-buffer-visiting f)))
+                (setq ediff-quit-hook prev-ediff-quit-hook)))
+      (with-temp-file new
+        (insert (current-kill 0 t)))
+      (with-temp-file old
+        (insert (current-kill 1 t)))
+      (if ediff?
+          (progn
+            (add-hook 'ediff-quit-hook #'kill-temps)
+            (ediff old new))
+        (diff old new "-u" t)))))
 
 ;; (require 'esqlite)
 ;; ln -s $HOME/Library/Application\ Support/Firefox/Profiles/rwqey9hs.default-release/places.sqlite $HOME/places.sqlite
@@ -363,7 +385,9 @@
                         " ... awaiting result ...")))
     (message marker)
     (cider-interactive-eval "(clojure.test/run-tests)")
-    (format-test-results (wait-for-cider-result marker) test-file)))
+    (format-test-results (wait-for-cider-result marker) test-file)
+    (cider-switch-to-repl-buffer)
+    (end-of-buffer)))
 
 (defun test-files ()
   (seq-filter (lambda (path-to-file)
@@ -461,3 +485,9 @@
 
 (buffer-substring (point-at-bol) (point-at-eol))
 (put 'list-timers 'disabled nil)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
