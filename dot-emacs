@@ -14,15 +14,13 @@
       (l '(beacon
            clojure-mode
            cider
-           closql
            uuidgen
            magit
-           restclient
-           twittering-mode
            markdown-mode)))
+  (package-refresh-contents)
   (dolist (e l v)
-    (unless (package-installed-p e)
-      (package-refresh-contents)
+    (if (package-installed-p e)
+        (package-upgrade e)
       (package-install e))))
 
 (require 'eshell)
@@ -467,8 +465,47 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(beacon uuidgen closql request twittering-mode yaml-mode markdown-mode restclient rest-client magit cider)))
+ '(package-selected-packages '(beacon request yaml-mode markdown-mode magit cider))
+ '(safe-local-variable-values
+   '((eval progn
+           (define-clojure-indent
+            (puppetlabs.trapperkeeper.core/defservice
+             '(:defn
+               (:defn)))
+            (trapperkeeper/defservice
+             '(:defn
+               (:defn)))
+            (tk/defservice
+             '(:defn
+               (:defn)))
+            (defservice
+             '(:defn
+               (:defn)))))
+     (cljr-favor-prefix-notation)
+     (eval progn
+           (put 's/defn 'clojure-doc-string-elt 2)
+           (define-clojure-indent
+            (puppetlabs.trapperkeeper.core/defservice
+             '(:defn
+               (:defn)))
+            (tk/defservice
+             '(:defn
+               (:defn)))
+            (defservice
+             '(:defn
+               (:defn)))
+            (dotests 2)
+            (context 2)
+            (tk-test 2)
+            (DELETE 2)
+            (GET 2)
+            (PATCH 2)
+            (POST 2)
+            (PUT 2)))
+     (eval add-to-list 'auto-mode-alist
+           '("\\.clj-template$" . clojure-mode))
+     (cider-preferred-build-tool . lein)
+     (magit-todos-exclude-globs "*.html" "*.org" "*.md" "*.map"))))
 
 (setq initial-scratch-message
   (concat
@@ -491,3 +528,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
