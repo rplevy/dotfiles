@@ -65,3 +65,5 @@ function get-blame-last-updated() {
 }
 
 alias sll="/usr/local/opt/gnu-sed/libexec/gnubin/sed '/^.\{2000\}./d'"
+
+export PATH=/opt/homebrew/bin:$PATH
