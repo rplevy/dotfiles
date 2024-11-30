@@ -31,9 +31,7 @@
 (setq max-lisp-eval-depth 10000)
 (setq max-specpdl-size 10000)
 
-(if (string= "peirce" (system-name))
-    (load "~/prj/reorg.el/reorg.el")
-  (load "~/prj/wtd/wtd.el"))
+(load "~/prj/reorg.el/reorg.el")
 
 (defmacro dysfun (f)
   `(defun ,f (&optional args)
@@ -443,10 +441,6 @@
                      (buffer-tail bfr 1000))
                    'cider-c
                    0.25))
-
-(when (not (string= "peirce" (system-name)))
-  ;; by process of elimination, must be work laptop
-  (load "~/.emacs.d/cisco.el"))
 
 (setq vc-follow-symlinks t)
 
