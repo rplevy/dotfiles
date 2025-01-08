@@ -6,7 +6,8 @@ else # linux
     alias pbpaste='xclip -selection clipboard -o'
 fi
 
-export PATH="$HOME/bin:/usr/local/sbin:$HOME/Library/Android/sdk/tools/bin:$HOME/Library/Python/3.7/bin/:"$PATH
+export ANDROID_HOME="/usr/lib/android-sdk"
+export PATH="$HOME/bin:/usr/local/sbin:$ANDROID_HOME/cmdline-tools/latest/bin:$HOME/Library/Python/3.7/bin/:"$PATH
 export PAGER=cat
 export EDITOR=emacs
 export PS1='\u:\A:\w\$ '
@@ -67,3 +68,26 @@ function get-blame-last-updated() {
 alias sll="/usr/local/opt/gnu-sed/libexec/gnubin/sed '/^.\{2000\}./d'"
 
 export PATH=/opt/homebrew/bin:$PATH
+
+#export PYENV_ROOT="$HOME/.pyenv"
+#[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+#eval "$(pyenv init - bash)"
+#
+## eval "$(pyenv virtualenv-init -)"
+#
+#export PATH=/home/rplevy/.pyenv/versions/3.10.6/bin:$PATH
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/rplevy/bin/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/rplevy/bin/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/rplevy/bin/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/rplevy/bin/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<

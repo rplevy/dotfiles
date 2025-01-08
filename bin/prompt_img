@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+
+import requests
+import json
+import base64
+import sys
+
+with open(sys.argv[1], "rb") as image_file:
+    b64_img = base64.b64encode(image_file.read()).decode("utf-8")
+
+url = "http://localhost:11434/api/generate"
+data = {"model": "llama3.2-vision",
+        "stream": False,
+        "prompt": "what is in this picture",
+        "images": [b64_img]}
+
+response = requests.post(url, json=data)
+json_data = json.loads(response.text)
+print(json_data["response"])
+
+# example:
+#
+# $ ollama run llama3.2-vision
+# $ prompt_img ~/Downloads/image.png
+#
+# This image depicts a plate of breakfast food, featuring an egg with
+# a fried egg yolk on top, accompanied by two slices of toast and a
+# cup of coffee. The plate has a blue rim and appears to be placed on
+# a beige tablecloth or placemat.
