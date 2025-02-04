@@ -10,12 +10,14 @@
 (add-to-list 'package-archives
              '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (package-initialize)
+
 (let (v
       (l '(beacon
            clojure-mode
            cider
            uuidgen
            magit
+           gptel
            markdown-mode)))
   (package-refresh-contents)
   (dolist (e l v)
@@ -459,7 +461,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(beacon request yaml-mode markdown-mode cider)))
+ '(package-selected-packages '(gptel beacon request yaml-mode markdown-mode cider)))
 
 (setq initial-scratch-message
   (concat
@@ -483,3 +485,8 @@
  ;; If there is more than one, they won't work right.
  )
 
+(setq gptel-model 'hf.co/unsloth/DeepSeek-R1-Distill-Qwen-14B-GGUF:Q6_K
+      gptel-backend (gptel-make-ollama "deepseek"
+                      :host "localhost:11434"
+                      :stream t
+                      :models '(hf.co/unsloth/DeepSeek-R1-Distill-Qwen-14B-GGUF:Q6_K)))
