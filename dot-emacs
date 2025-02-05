@@ -11,19 +11,19 @@
              '("melpa-stable" . "http://stable.melpa.org/packages/") t)
 (package-initialize)
 
-(let (v
-      (l '(beacon
-           clojure-mode
-           cider
-           uuidgen
-           magit
-           gptel
-           markdown-mode)))
-  (package-refresh-contents)
-  (dolist (e l v)
-    (if (package-installed-p e)
-        (package-upgrade e)
-      (package-install e))))
+;; (let (v
+;;       (l '(beacon
+;;            clojure-mode
+;;            cider
+;;            uuidgen
+;;            magit
+;;            gptel
+;;            markdown-mode)))
+;;   (package-refresh-contents)
+;;   (dolist (e l v)
+;;     (if (package-installed-p e)
+;;         (package-upgrade e)
+;;       (package-install e))))
 
 (require 'eshell)
 
