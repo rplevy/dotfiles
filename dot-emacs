@@ -35,6 +35,9 @@
 
 (load "~/prj/reorg.el/reorg.el")
 
+(defun linux-p ()
+  (file-directory-p "/home/rplevy"))
+
 (defmacro dysfun (f)
   `(defun ,f (&optional args)
      (interactive)
@@ -207,9 +210,8 @@
 (defmacro defcljregexp (name a b)
   `(defshellonreg ,name (concat "ced " ,a " " ,b)))
 
-(if (string= "peirce" (system-name))
-    ;; linux
-    (defshellonreg pbcopy-region "xclip -selection clipboard")
+(if (linux-p)
+    (defshellonreg pbcopy-region "xclip -sel clip")
   ;; mac
   (defshellonreg pbcopy-region "pbcopy"))
 
